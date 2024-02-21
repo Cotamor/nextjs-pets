@@ -27,21 +27,21 @@ export default function CharacterData() {
     })
   }, [])
 
-  useEffect(()=>{
-    if(messageLog.length) {
+  useEffect(() => {
+    if (messageLog.length) {
       chatLogElement.current.scrollTop = chatLogElement.current.scrollHeight
-      if(!isChatOpen) {
-        setUnreadCount(prev => prev + 1)
+      if (!isChatOpen) {
+        setUnreadCount((prev) => prev + 1)
       }
     }
-  },[messageLog])
+  }, [messageLog])
 
   function openChatClick() {
     setIsChatOpen(true)
     setUnreadCount(0)
     setTimeout(() => {
       chatField.current.focus()
-    }, 350);
+    }, 350)
   }
 
   function closeChatClick() {
@@ -56,7 +56,7 @@ export default function CharacterData() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        message: userMessage,
+        message: userMessage.trim(),
         socket_id: socketId,
       }),
     })
