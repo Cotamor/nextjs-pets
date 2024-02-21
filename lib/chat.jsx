@@ -7,6 +7,8 @@ export default function CharacterData() {
   const [socketId, setSocketId] = useState()
   const [messageLog, setMessageLog] = useState([])
   const [userMessage, setUserMessage] = useState('')
+  const chatField = useRef(null)
+  const chatLogElement = useRef(null)
 
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHERKEY, {
@@ -18,16 +20,28 @@ export default function CharacterData() {
     })
     // Private channe must be prefixed with private-
     const channel = pusher.subscribe('private-petchat')
-    // Message event
+    // Message event incomming
     channel.bind('message', (data) => {
       console.log(data)
       setMessageLog((prev) => [...prev, data])
     })
   }, [])
 
+  useEffect(()=>{
+    if(messageLog.length) {
+      chatLogElement.current.scrollTop = chatLogElement.current.scrollHeight
+      if(!isChatOpen) {
+        setUnreadCount(prev => prev + 1)
+      }
+    }
+  },[messageLog])
+
   function openChatClick() {
     setIsChatOpen(true)
     setUnreadCount(0)
+    setTimeout(() => {
+      chatField.current.focus()
+    }, 350);
   }
 
   function closeChatClick() {
@@ -54,7 +68,7 @@ export default function CharacterData() {
   }
 
   function handleInputChange(e) {
-    setUserMessage(e.target.value.trim())
+    setUserMessage(e.target.value)
   }
 
   return (
@@ -95,7 +109,7 @@ export default function CharacterData() {
             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z" />
           </svg>
         </div>
-        <div className="chat-log">
+        <div ref={chatLogElement} className="chat-log">
           {messageLog.map((item, index) => {
             return (
               <div
@@ -113,6 +127,8 @@ export default function CharacterData() {
         </div>
         <form onSubmit={handleChatSubmit}>
           <input
+            value={userMessage}
+            ref={chatField}
             onChange={handleInputChange}
             type="text"
             autoComplete="off"
