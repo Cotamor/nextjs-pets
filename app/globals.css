@@ -701,11 +701,15 @@ textarea.form-field {
   font-size: 1rem;
 }
 .chat-title-bar svg {
-
+  cursor: pointer;
+  opacity: 0.7;
+}
+.chat-title-bar svg:hover {
+  opacity: 1;
 }
 
 .chat-message {
-  margin: 0 auto 5px 0;
+  margin: 0 60px 5px 0;
   display: flex;
 }
 
@@ -723,7 +727,7 @@ textarea.form-field {
 
 .chat-message--self {
   justify-content: flex-end;
-  margin: 0 0 5px auto;
+  margin: 0 0 5px 60px;
 }
 
 .chat-container input {
