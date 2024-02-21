@@ -659,10 +659,22 @@ textarea.form-field {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 85;
 }
 .open-chat svg {
   color: #404ec5;
   margin: auto;
+}
+.chat-unread-badge {
+  position:absolute;
+  top: 0px;
+  right: 0px;
+  padding: 2px 4px;
+  line-height: 1;
+  border-radius: 50px;
+  background-color: red;
+  color: white;
+  font-size: 0.7rem;
 }
 
 .chat-container {

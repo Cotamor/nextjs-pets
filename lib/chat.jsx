@@ -2,20 +2,21 @@ import { useState, useEffect, useRef } from "react"
 
 export default function CharacterData() {
   const [isChatOpen, setIsChatOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
 
   function openChatClick() {
-    console.log('click')
     setIsChatOpen(true)
+    setUnreadCount(0)
   }
 
   function closeChatClick() {
-    console.log('close')
     setIsChatOpen(false)
   }
 
   return (
     <>
       <div className="open-chat" onClick={openChatClick}>
+        { unreadCount > 0 &&<span className="chat-unread-badge">{unreadCount}</span>}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="22"
